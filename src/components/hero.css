@@ -1,0 +1,212 @@
+.hero {
+  position: relative;
+  min-height: 760px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-top: 76px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(15, 7, 2, 0.97) 0%,
+      rgba(15, 7, 2, 0.88) 38%,
+      rgba(15, 7, 2, 0.35) 70%,
+      rgba(15, 7, 2, 0.2) 100%
+    ),
+    url("/img/mocoto-potes.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: #e85c0d;
+  filter: blur(180px);
+  opacity: 0.12;
+  left: -250px;
+  top: 20%;
+}
+
+.hero-container {
+  width: min(1200px, 90%);
+  margin: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-text {
+  max-width: 620px;
+}
+
+.hero h1 {
+  font-family: "Oswald", sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(48px, 6vw, 82px);
+  line-height: 0.95;
+  letter-spacing: -2px;
+  color: #f8ead6;
+}
+
+.hero h1 span {
+  display: block;
+  color: #ef6c16;
+}
+
+.tagline {
+  font-family: "Caveat", cursive;
+  font-size: clamp(26px, 3vw, 36px);
+  color: #f2b98a;
+  margin-top: 8px;
+}
+
+.description {
+  max-width: 480px;
+  margin-top: 22px;
+  font-size: 17px;
+  line-height: 1.7;
+  color: #dfd1c3;
+}
+
+.sides {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 10px 18px;
+  width: fit-content;
+  background: rgba(233, 103, 20, 0.12);
+  border: 1px solid rgba(233, 103, 20, 0.35);
+  border-radius: 10px;
+  color: #f2c8a0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.info {
+  display: flex;
+  gap: 45px;
+  margin-top: 32px;
+}
+
+.info div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info strong {
+  color: #fff2df;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+.info small {
+  color: #a99888;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 36px;
+}
+
+.btn-primary,
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 30px;
+  border-radius: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.25s ease;
+}
+
+.btn-primary {
+  background: #e85c0d;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #ff711d;
+  transform: translateY(-3px);
+}
+
+.btn-primary span {
+  font-size: 18px;
+}
+
+.btn-outline {
+  background: transparent;
+  color: #f8ead6;
+  border: 2px solid rgba(248, 234, 214, 0.4);
+}
+
+.btn-outline:hover {
+  border-color: #e96714;
+  color: #e96714;
+  transform: translateY(-3px);
+}
+
+.scroll-indicator {
+  position: absolute;
+  z-index: 3;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(248, 234, 214, 0.4);
+  border-radius: 50%;
+  color: #e96714;
+  font-size: 20px;
+  text-decoration: none;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+  50% {
+    transform: translate(-50%, 8px);
+  }
+}
+
+@media (max-width: 700px) {
+  .hero {
+    align-items: flex-end;
+    padding: 130px 0 100px;
+    background-position: 65% center;
+  }
+
+  .hero h1 {
+    font-size: clamp(44px, 14vw, 70px);
+  }
+
+  .info {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .btn-primary,
+  .btn-outline {
+    width: 100%;
+    justify-content: center;
+  }
+}
