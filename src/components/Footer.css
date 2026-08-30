@@ -39,6 +39,18 @@
   font-size: 13px;
 }
 
+.footer-whatsapp {
+  color: #a99888;
+  font-size: 13px;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.footer-whatsapp:hover {
+  color: #e96714;
+  text-decoration: underline;
+}
+
 .footer-cta {
   display: flex;
   align-items: center;

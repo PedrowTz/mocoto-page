@@ -34,7 +34,14 @@ function Footer() {
           <span className="footer-icon">💬</span>
           <div>
             <strong>FALE CONOSCO</strong>
-            <small>(98) 98425-2023 WhatsApp</small>
+            <a
+              className="footer-whatsapp"
+              href="https://wa.me/5598984252023?text=Ol%C3%A1%2C%20quero%20fazer%20um%20pedido%21"
+              target="_blank"
+              rel="noreferrer"
+            >
+              (98) 98425-2023 WhatsApp
+            </a>
           </div>
         </div>
       </div>
