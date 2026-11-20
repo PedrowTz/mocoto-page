@@ -1,12 +1,12 @@
 import "./App.css";
 import Header from "./components/Header";
-import Hero from "./components/hero";
+import Story from "./components/Story";
 import Sizes from "./components/Sizes";
-import Favorite from "./components/Favorite";
 import Features from "./components/Features";
 import HowToOrder from "./components/HowToOrder";
 import Testimonials from "./components/Testimonials";
 import Footer from "./components/Footer";
+import FloatingOrder from "./components/FloatingOrder";
 
 function App() {
   return (
@@ -14,15 +14,15 @@ function App() {
       <Header />
 
       <main>
-        <Hero />
+        <Story />
         <Sizes />
-        <Favorite />
         <Features />
         <HowToOrder />
         <Testimonials />
       </main>
 
       <Footer />
+      <FloatingOrder />
     </>
   );
 }

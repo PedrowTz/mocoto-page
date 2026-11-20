@@ -25,7 +25,7 @@ const features = [
 
 function Features() {
   return (
-    <section className="features">
+    <section className="features" id="sobre">
       <div className="features-container">
         {features.map((f) => (
           <div className="feature-card" key={f.title}>

@@ -1,0 +1,461 @@
+/* ==========================================================
+   PALCO
+
+   Fica preso na tela (pin do GSAP) enquanto a pessoa rola.
+   Camadas, de trás pra frente:
+   partículas do fundo → título gigante → produto →
+   partículas da frente → legenda/botões
+========================================================== */
+
+.story {
+  position: relative;
+}
+
+.story-stage {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: #e85c0d;
+  isolation: isolate;
+}
+
+
+/* ==========================================================
+   TÍTULO GIGANTE
+========================================================== */
+
+.story-titles {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  align-items: center;
+  /* espaço embaixo reservado para a legenda e os botões */
+  padding: 90px 7vw 18vh;
+  pointer-events: none;
+}
+
+/* Texto de um lado, produto do outro (o lado vem de `side` no Story.jsx) */
+.story-title {
+  grid-area: 1 / 1;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: "Anton", "Oswald", sans-serif;
+  font-weight: 400;
+  /* espaço suficiente para o til/acento não encostar na linha de cima */
+  line-height: 1.02;
+  letter-spacing: 0.01em;
+}
+
+.story-title[data-side="left"] {
+  justify-self: start;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.story-title[data-side="right"] {
+  justify-self: end;
+  align-items: flex-end;
+  text-align: right;
+}
+
+/* Cenas 2+ só aparecem quando a animação está ativa */
+.story-title:not(:first-child) {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Cada linha ajusta o tamanho ao número de letras para ocupar
+   ~metade da largura (a outra metade é do produto), com teto pela altura */
+.line {
+  display: block;
+  overflow: hidden;
+  /* folga para os acentos altos do Anton (Ó, Ã, Í) não serem cortados */
+  padding-top: 0.26em;
+  margin-top: -0.26em;
+  font-size: min(calc(100vw / var(--chars)), 16vh);
+  white-space: nowrap;
+}
+
+.line-inner {
+  display: block;
+}
+
+
+/* ==========================================================
+   PRODUTO (pote → prato)
+========================================================== */
+
+.story-product {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 70px;
+  pointer-events: none;
+}
+
+.story-product-tilt {
+  display: grid;
+  place-items: center;
+  perspective: 900px;
+  transform-style: preserve-3d;
+  pointer-events: auto;
+}
+
+.story-product-tilt img {
+  grid-area: 1 / 1;
+  display: block;
+  height: auto;
+  user-select: none;
+  filter: drop-shadow(0 34px 38px rgba(0, 0, 0, 0.38));
+}
+
+.story-pote {
+  width: min(30vw, 40vh);
+}
+
+.story-prato {
+  width: min(46vw, 58vh);
+  opacity: 0;
+  visibility: hidden;
+}
+
+
+/* ==========================================================
+   PARTÍCULAS (azeitonas e coentro)
+
+   Centralizadas por margem negativa, não por transform,
+   porque o transform é do GSAP (rolagem e mouse).
+========================================================== */
+
+.story-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.story-particles-back {
+  z-index: 1;
+}
+
+.story-particles-front {
+  z-index: 4;
+}
+
+.particle {
+  position: absolute;
+  width: calc(var(--size) * 1px);
+  margin-left: calc(var(--size) * -0.5px);
+  margin-top: calc(var(--size) * -0.5px);
+}
+
+.particle img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  filter: drop-shadow(0 10px 12px rgba(0, 0, 0, 0.25));
+}
+
+
+/* ==========================================================
+   LEGENDA + BOTÕES
+========================================================== */
+
+.story-captions {
+  position: absolute;
+  left: 7vw;
+  right: 7vw;
+  /* acima do botão flutuante do iFood */
+  bottom: max(6vh, 96px);
+  z-index: 5;
+  display: grid;
+  pointer-events: none;
+}
+
+.story-caption {
+  grid-area: 1 / 1;
+  align-self: end;
+  max-width: 520px;
+  pointer-events: auto;
+}
+
+.story-caption[data-side="left"] {
+  justify-self: start;
+  text-align: left;
+}
+
+.story-caption[data-side="right"] {
+  justify-self: end;
+  text-align: right;
+}
+
+.story-caption[data-side="left"] .story-buttons {
+  justify-content: flex-start;
+}
+
+.story-caption:not(:first-child) {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.story-caption p {
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.55;
+  font-weight: 500;
+}
+
+.story-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.story-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 26px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+}
+
+.story-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+}
+
+.story-btn-primary {
+  background: #120a05;
+  color: #fff4e6;
+  box-shadow: 0 12px 30px rgba(18, 10, 5, 0.35);
+}
+
+.story-btn-primary span {
+  transition: transform 0.25s ease;
+}
+
+.story-btn-primary:hover span {
+  transform: translateX(4px);
+}
+
+.story-btn-ghost {
+  color: #fff4e6;
+  border: 2px solid rgba(255, 244, 230, 0.6);
+}
+
+.story-btn-ghost:hover {
+  background: #fff4e6;
+  color: #e85c0d;
+}
+
+.story-hours {
+  display: block;
+  margin-top: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+
+/* ==========================================================
+   NAVEGAÇÃO ENTRE CENAS + DICA DE ROLAGEM
+========================================================== */
+
+.story-dots {
+  position: absolute;
+  right: 28px;
+  top: 50%;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transform: translateY(-50%);
+}
+
+.story-dots button {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 2px solid var(--dot);
+  border-radius: 999px;
+  background: transparent;
+  opacity: 0.55;
+  cursor: pointer;
+  transition: height 0.3s ease, opacity 0.3s ease, background 0.3s ease;
+}
+
+.story-dots button.is-active {
+  height: 30px;
+  background: var(--dot);
+  opacity: 1;
+}
+
+.story-scroll-hint {
+  position: absolute;
+  right: 28px;
+  bottom: 6vh;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff4e6;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: opacity 0.4s ease;
+}
+
+.story-scroll-hint.is-hidden {
+  opacity: 0;
+}
+
+.mouse {
+  position: relative;
+  width: 20px;
+  height: 32px;
+  border: 2px solid currentColor;
+  border-radius: 12px;
+}
+
+.mouse::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 6px;
+  width: 4px;
+  height: 7px;
+  margin-left: -2px;
+  border-radius: 2px;
+  background: currentColor;
+  animation: mouse-wheel 1.6s ease-in-out infinite;
+}
+
+@keyframes mouse-wheel {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+
+/* ==========================================================
+   CELULAR
+========================================================== */
+
+@media (max-width: 860px) {
+  /* Celular/tablet: coluna título → produto → legenda. O produto ocupa só
+     o espaço que sobra entre os dois, então nunca cobre o texto. */
+  .story-stage {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .story-titles {
+    position: relative;
+    inset: auto;
+    flex: none;
+    align-items: start;
+    padding: calc(76px + 3vh) 5vw 0;
+  }
+
+  .story-title[data-side] {
+    justify-self: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .line {
+    font-size: min(calc(150vw / var(--chars)), 11vh);
+  }
+
+  .story-product {
+    position: relative;
+    inset: auto;
+    flex: 1 1 0;
+    min-height: 0;
+    padding: 2vh 0;
+  }
+
+  .story-pote {
+    width: min(58vw, 27vh);
+  }
+
+  .story-prato {
+    width: min(84vw, 40vh);
+  }
+
+  .story-captions {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    flex: none;
+    padding: 0 5vw 88px;
+  }
+
+  .story-caption[data-side] {
+    justify-self: center;
+    text-align: center;
+  }
+
+  .story-caption[data-side] .story-buttons {
+    justify-content: center;
+  }
+
+  .particle {
+    width: calc(var(--size) * 0.6px);
+    margin-left: calc(var(--size) * -0.3px);
+    margin-top: calc(var(--size) * -0.3px);
+  }
+
+  .particle[data-mobile="false"] {
+    display: none;
+  }
+
+  .story-dots {
+    right: 12px;
+  }
+
+  .story-scroll-hint {
+    display: none;
+  }
+
+  .story-btn {
+    padding: 13px 20px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .story-caption p {
+    font-size: 14px;
+  }
+
+  .story-btn {
+    padding: 12px 16px;
+    gap: 8px;
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mouse::after {
+    animation: none;
+  }
+}

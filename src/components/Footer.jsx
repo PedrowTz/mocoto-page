@@ -1,3 +1,4 @@
+import { IFOOD_URL, WHATSAPP_URL } from "../links";
 import "./Footer.css";
 
 function Footer() {
@@ -36,7 +37,7 @@ function Footer() {
             <strong>FALE CONOSCO</strong>
             <a
               className="footer-whatsapp"
-              href="https://wa.me/5598984252023?text=Ol%C3%A1%2C%20quero%20fazer%20um%20pedido%21"
+              href={WHATSAPP_URL}
               target="_blank"
               rel="noreferrer"
             >
@@ -48,7 +49,7 @@ function Footer() {
 
       <a
         className="footer-cta"
-        href="https://www.ifood.com.br/delivery/sao-luis-ma/mocoto-da-rosinha-joao-paulo/36e9d49b-e6c4-4060-af50-6d95c3bce4c1"
+        href={IFOOD_URL}
         target="_blank"
         rel="noreferrer"
       >

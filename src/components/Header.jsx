@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Header.css";
 
 const links = [
@@ -13,14 +13,35 @@ function Header() {
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
 
+  // Com o menu aberto no celular: trava a rolagem do fundo e fecha com Esc
+  useEffect(() => {
+    if (!open) return;
+
+    const onKey = (e) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
   return (
     <header className="site-header">
       <div className="header-container">
         <a href="#inicio" className="brand" onClick={close}>
-          <img src="/img/logo.jpg" alt="Mocotó da Rosinha" className="brand-logo" />
+          <img src="/img/recortes/logo.webp" alt="Mocotó da Rosinha" className="brand-logo" />
         </a>
 
         <nav className={`nav ${open ? "nav-open" : ""}`}>
+          <button type="button" className="nav-back" onClick={close}>
+            ← VOLTAR
+          </button>
+
           {links.map((link, i) => (
             <a
               key={link.href}
@@ -34,9 +55,10 @@ function Header() {
         </nav>
 
         <button
+          type="button"
           className={`hamburger ${open ? "hamburger-open" : ""}`}
           onClick={() => setOpen((v) => !v)}
-          aria-label="Abrir menu"
+          aria-label={open ? "Fechar menu" : "Abrir menu"}
           aria-expanded={open}
         >
           <span></span>

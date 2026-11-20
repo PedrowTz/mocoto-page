@@ -1,10 +1,36 @@
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   background: rgba(18, 10, 5, 0.9);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(248, 234, 214, 0.08);
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+/* Enquanto a história (Story) está na tela, o header fica transparente
+   e as cores acompanham a cena atual (variáveis definidas no Story.jsx) */
+body.story-active .site-header {
+  background: transparent;
+  backdrop-filter: none;
+  border-color: transparent;
+}
+
+@media (min-width: 861px) {
+  body.story-active .nav a {
+    color: var(--header-ink, #dfd1c3);
+  }
+
+  body.story-active .nav a.active {
+    color: var(--header-ink, #e96714);
+    border-color: var(--header-accent, #e96714);
+  }
+}
+
+body.story-active .hamburger:not(.hamburger-open) span {
+  background: var(--header-ink, #f8ead6);
 }
 
 .header-container {
@@ -23,25 +49,17 @@
   text-decoration: none;
 }
 
+/* Logo já recortada (sem fundo), funciona sobre qualquer cor de cena */
 .brand-logo {
-  height: 84px;
+  height: 70px;
   width: auto;
   display: block;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.25));
+  transition: transform 0.3s ease;
+}
 
-  /* Some o fundo escuro retangular da foto com um degradê real de transparência,
-     sem depender de blend mode (que quebra junto com o blur do header) */
-  -webkit-mask-image: radial-gradient(
-    ellipse 58% 58% at center,
-    black 35%,
-    rgba(0, 0, 0, 0.55) 60%,
-    transparent 90%
-  );
-  mask-image: radial-gradient(
-    ellipse 58% 58% at center,
-    black 35%,
-    rgba(0, 0, 0, 0.55) 60%,
-    transparent 90%
-  );
+.brand:hover .brand-logo {
+  transform: rotate(-3deg) scale(1.05);
 }
 
 @media (max-width: 860px) {
@@ -50,13 +68,13 @@
   }
 
   .brand-logo {
-    height: 56px;
+    height: 52px;
   }
 }
 
 @media (max-width: 480px) {
   .brand-logo {
-    height: 46px;
+    height: 44px;
   }
 }
 
@@ -89,9 +107,16 @@
   border-color: #e96714;
 }
 
+/* "Voltar" só existe dentro do menu aberto no celular */
+.nav-back {
+  display: none;
+}
+
 .hamburger {
   display: none;
   position: absolute;
+  /* fica acima do menu aberto (z-index 150) para virar o X de fechar */
+  z-index: 160;
   right: 0;
   top: 50%;
   transform: translateY(-50%);
@@ -157,6 +182,27 @@
 
   .nav-open {
     display: flex;
+  }
+
+  .nav-back {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 76px;
+    padding: 0 24px;
+    border: none;
+    background: transparent;
+    color: #e96714;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+
+  .hamburger-open {
+    background: rgba(233, 103, 20, 0.2);
   }
 
   .hamburger {
