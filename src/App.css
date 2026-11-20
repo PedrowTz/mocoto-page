@@ -25,6 +25,9 @@
 
 html {
   scroll-behavior: smooth;
+  /* cor que aparece no "elástico" do celular ao puxar o topo da página:
+     laranja da primeira cena, não o fundo escuro */
+  background: #e85c0d;
 }
 
 

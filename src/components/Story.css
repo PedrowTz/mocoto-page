@@ -31,8 +31,9 @@
   z-index: 2;
   display: grid;
   align-items: center;
-  /* espaço embaixo reservado para a legenda e os botões */
-  padding: 90px 7vw 18vh;
+  /* espaço embaixo reservado para a legenda e os botões
+     (mesma distância do rodapé que .story-captions + altura da legenda) */
+  padding: 90px 7vw calc(max(6vh, 96px) + 190px);
   pointer-events: none;
 }
 
@@ -68,14 +69,16 @@
 }
 
 /* Cada linha ajusta o tamanho ao número de letras para ocupar
-   ~metade da largura (a outra metade é do produto), com teto pela altura */
+   ~metade da largura (a outra metade é do produto), com teto pela altura.
+   O último limite garante que as 3 linhas cabem entre o header e a legenda
+   mesmo em telas baixas (notebook 1280×720). */
 .line {
   display: block;
   overflow: hidden;
   /* folga para os acentos altos do Anton (Ó, Ã, Í) não serem cortados */
   padding-top: 0.26em;
   margin-top: -0.26em;
-  font-size: min(calc(100vw / var(--chars)), 16vh);
+  font-size: min(calc(100vw / var(--chars)), 16vh, calc((100vh - 400px) / 3.1));
   white-space: nowrap;
 }
 

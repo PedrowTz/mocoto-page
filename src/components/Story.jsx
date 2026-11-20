@@ -38,9 +38,9 @@ const scenes = [
       "Ingredientes selecionados, temperados na medida certa e cozidos com tempo e carinho.",
   },
   {
-    bg: "#120a05",
-    ink: "#f8ead6",
-    accentColor: "#e85c0d",
+    bg: "#a8240f",
+    ink: "#fff4e6",
+    accentColor: "#ffc93c",
     side: "left",
     lines: ["DO PANELÃO", "PRA SUA", "MESA"],
     accent: 2,
@@ -131,9 +131,13 @@ function Story() {
     const mm = gsap.matchMedia(root);
     const html = document.documentElement;
 
+    const themeMeta = document.querySelector('meta[name="theme-color"]');
+
+    // Header e barra do navegador do celular acompanham a cor da cena
     const paintHeader = (i) => {
       html.style.setProperty("--header-ink", scenes[i].ink);
       html.style.setProperty("--header-accent", scenes[i].accentColor);
+      themeMeta?.setAttribute("content", scenes[i].bg);
     };
 
     paintHeader(0);
